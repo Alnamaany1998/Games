@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستار جيمز | STAR GAMES</title>
+    <title>ستار جيمز | نظام الأساطير</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
+    
+    <!-- مكتبات Firebase (المحرك الحقيقي) -->
+    <script src="https://www.gstatic.com"></script>
+    <script src="https://www.gstatic.com"></script>
+    <script src="https://www.gstatic.com"></script>
+
     <style>
         body { font-family: 'Changa', sans-serif; background: #05070a; color: #f8fafc; }
         .neon-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.8); }
         .game-card { background: #0f172a; border-radius: 20px; overflow: hidden; border: 1px solid #1e293b; transition: 0.3s; cursor: pointer; }
         .game-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
-        /* خلفية بديلة ملونة في حال فشل أي صورة مستقبلاً */
-        .img-placeholder { background: linear-gradient(45deg, #1e293b, #3b82f6); display: flex; align-items: center; justify-content: center; height: 128px; }
+        .img-placeholder { display: flex; align-items: center; justify-content: center; height: 128px; }
     </style>
 </head>
 <body>
@@ -20,7 +25,7 @@
     <header class="p-4 bg-slate-950 border-b border-blue-900/50 flex justify-between items-center sticky top-0 z-50">
         <div class="text-2xl font-black neon-text italic text-blue-400 font-bold">STARGAMES</div>
         <div class="flex items-center gap-3">
-            <button class="bg-blue-600 px-4 py-1 rounded-lg text-xs font-bold">دخول 👤</button>
+            <button id="loginBtn" onclick="googleLogin()" class="bg-blue-600 px-4 py-1 rounded-lg text-xs font-bold">دخول 👤</button>
             <div class="bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full text-yellow-400 font-bold">
                 <span id="userPoints">0</span> 🪙
             </div>
@@ -38,16 +43,21 @@
     </div>
 
     <script>
+        // إعدادات Firebase (ضع مفاتيحك هنا لاحقاً)
+        const firebaseConfig = { apiKey: "AIzaSy...", authDomain: "games-c6.firebaseapp.com", projectId: "games-c6", appId: "1:777:web:abc" };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
         let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-        // استخدمنا هنا أيقونات تعبيرية (Emoji) كحل مؤقت مضمون لضمان عدم بقاء المربعات فارغة
         const gamesList = [
-            { title: "هروب المعبد 2", icon: "🏃‍♂️", color: "#f59e0b", url: "https://www.gamepix.com" },
             { title: "سحق الزومبي", icon: "🧟", color: "#10b981", url: "https://www.gamepix.com" },
-            { title: "تحدي السكين", icon: "🔪", color: "#ef4444", url: "https://www.gamepix.com" },
-            { title: "سباق الشوارع", icon: "🏎️", color: "#3b82f6", url: "https://www.gamepix.com" }
+            { title: "هروب المعبد 2", icon: "🏃‍♂️", color: "#f59e0b", url: "https://www.gamepix.com" },
+            { title: "سباق الشوارع", icon: "🏎️", color: "#3b82f6", url: "https://www.gamepix.com" },
+            { title: "تحدي السكين", icon: "🔪", color: "#ef4444", url: "https://www.gamepix.com" }
         ];
 
         function showGames() {
@@ -60,6 +70,30 @@
                     <div class="p-3 text-center text-xs font-bold">${game.title}</div>
                 </div>
             `).join('');
+        }
+
+        // وظيفة تسجيل الدخول عبر جوجل
+        function googleLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then((result) => {
+                const user = result.user;
+                document.getElementById('loginBtn').innerText = user.displayName.split(' ')[0];
+                alert(`أهلاً بك يا ${user.displayName}!`);
+                loadUserPoints(user.uid);
+            }).catch((error) => alert("فشل تسجيل الدخول: " + error.message));
+        }
+
+        function loadUserPoints(uid) {
+            db.collection("users").doc(uid).get().then((doc) => {
+                if (doc.exists) {
+                    totalPoints = doc.data().points;
+                    document.getElementById('userPoints').innerText = totalPoints;
+                }
+            });
+        }
+
+        function savePoints(uid, points) {
+            db.collection("users").doc(uid).set({ points: points }, { merge: true });
         }
 
         function openGame(url) {
@@ -78,6 +112,10 @@
             totalPoints += sPoints;
             localStorage.setItem('totalPoints', totalPoints);
             document.getElementById('userPoints').innerText = totalPoints;
+            
+            const user = auth.currentUser;
+            if (user) savePoints(user.uid, totalPoints);
+
             document.getElementById('gameRoom').classList.add('hidden');
             document.getElementById('gFrame').src = "";
             document.getElementById('sessionPoints').innerText = "0";
