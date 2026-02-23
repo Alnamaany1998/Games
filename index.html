@@ -92,13 +92,13 @@
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-                const games = [
+                        const games = [
             { id: 1, title: "هروب المعبد 2", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { id: 2, title: "سحق الزومبي", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { id: 3, title: "تحدي السكين", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { id: 4, title: "سباق الشوارع", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { id: 5, title: "سحق الحلوى", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" }
+            { id: 4, title: "سباق الشوارع", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" }
         ];
+
 
 
         function renderGames() {
@@ -168,7 +168,8 @@
             document.getElementById('sessionPoints').innerText = "0";
         }
 
-        renderGames();
+        renderGames(<img src="${g.img}" class="w-full h-full object-cover rounded-t-3xl" style="min-height: 120px;">
+);
     </script>
 </body>
 </html>
