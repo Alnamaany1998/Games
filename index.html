@@ -108,32 +108,23 @@ const auth = firebase.auth();
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-                        const games = [
+                                const games = [
             { id: 1, title: "هروب المعبد 2", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { id: 2, title: "سحق الزومبي", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { id: 3, title: "تحدي السكين", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { id: 4, title: "سباق الشوارع", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" }
         ];
 
-
-
         function renderGames() {
-            const grid = document.getElementById('gameGrid');
+            const grid = document.getElementById('gameGrid'); // تأكد من كتابة هذا السطر كاملاً
             grid.innerHTML = games.map(g => `
-                <div onclick="launchGame('${g.url}')" class="game-card bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 cursor-pointer transition-all duration-300">
-                    <div class="h-32 bg-slate-800 relative">
-                        <img src="${g.img}" class="w-full h-full object-cover opacity-80">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-bold text-sm mb-1">${g.title}</h3>
-                        <div class="flex items-center justify-between">
-                            <span class="text-[10px] text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">نقاط مضاعفة ⚡</span>
-                        </div>
-                    </div>
+                <div onclick="launchGame('${g.url}')" class="game-card bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 cursor-pointer transition-all">
+                    <img src="${g.img}" class="w-full h-32 object-cover">
+                    <div class="p-3 text-center text-xs font-bold">${g.title}</div>
                 </div>
             `).join('');
         }
+
 
         function launchGame(url) {
             const room = document.getElementById('gameRoom');
