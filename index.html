@@ -11,13 +11,14 @@
         .neon-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.8); }
         .game-card { background: #0f172a; border-radius: 20px; overflow: hidden; border: 1px solid #1e293b; transition: 0.3s; cursor: pointer; }
         .game-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
+        /* خلفية بديلة ملونة في حال فشل أي صورة مستقبلاً */
+        .img-placeholder { background: linear-gradient(45deg, #1e293b, #3b82f6); display: flex; align-items: center; justify-content: center; height: 128px; }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر -->
     <header class="p-4 bg-slate-950 border-b border-blue-900/50 flex justify-between items-center sticky top-0 z-50">
-        <div class="text-2xl font-black neon-text italic text-blue-400">STARGAMES</div>
+        <div class="text-2xl font-black neon-text italic text-blue-400 font-bold">STARGAMES</div>
         <div class="flex items-center gap-3">
             <button class="bg-blue-600 px-4 py-1 rounded-lg text-xs font-bold">دخول 👤</button>
             <div class="bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full text-yellow-400 font-bold">
@@ -26,11 +27,9 @@
         </div>
     </header>
 
-    <!-- شبكة الألعاب -->
     <main class="container mx-auto p-6 grid grid-cols-2 md:grid-cols-4 gap-6" id="gameGrid"></main>
 
-    <!-- نافذة اللعب -->
-    <div id="gameRoom" class="fixed inset-0 bg-black hidden z- flex flex-col">
+    <div id="gameRoom" class="fixed inset-0 bg-black hidden z-50 flex flex-col">
         <div class="p-4 bg-slate-900 flex justify-between items-center">
             <button onclick="exitGame()" class="bg-red-600 px-6 py-1 rounded-full font-bold">خروج 🚪</button>
             <div class="text-yellow-400 font-bold">نقاط الجلسة: <span id="sessionPoints">0</span></div>
@@ -43,19 +42,21 @@
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-        // روابط صور مضمونة 100% تعمل على جميع المتصفحات
+        // استخدمنا هنا أيقونات تعبيرية (Emoji) كحل مؤقت مضمون لضمان عدم بقاء المربعات فارغة
         const gamesList = [
-            { title: "هروب المعبد 2", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { title: "سحق الزومبي", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { title: "تحدي السكين", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { title: "سباق الشوارع", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" }
+            { title: "هروب المعبد 2", icon: "🏃‍♂️", color: "#f59e0b", url: "https://www.gamepix.com" },
+            { title: "سحق الزومبي", icon: "🧟", color: "#10b981", url: "https://www.gamepix.com" },
+            { title: "تحدي السكين", icon: "🔪", color: "#ef4444", url: "https://www.gamepix.com" },
+            { title: "سباق الشوارع", icon: "🏎️", color: "#3b82f6", url: "https://www.gamepix.com" }
         ];
 
         function showGames() {
             const grid = document.getElementById('gameGrid');
             grid.innerHTML = gamesList.map(game => `
                 <div onclick="openGame('${game.url}')" class="game-card">
-                    <img src="${game.img}" class="w-full h-32 object-cover" loading="lazy">
+                    <div class="img-placeholder" style="background: ${game.color}33">
+                        <span class="text-5xl">${game.icon}</span>
+                    </div>
                     <div class="p-3 text-center text-xs font-bold">${game.title}</div>
                 </div>
             `).join('');
@@ -80,7 +81,6 @@
             document.getElementById('gameRoom').classList.add('hidden');
             document.getElementById('gFrame').src = "";
             document.getElementById('sessionPoints').innerText = "0";
-            alert(`مبروك! أضفت ${sPoints} نقطة لرصيدك 🎉`);
         }
 
         showGames();
