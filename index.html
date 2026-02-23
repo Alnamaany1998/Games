@@ -3,60 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ستار جيمز | نظام النقاط العالمي</title>
+    <title>ستار جيمز PRO | عالم الأساطير</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        body { font-family: 'Changa', sans-serif; background: #0b0e14; color: #e2e8f0; }
-        .points-badge { background: linear-gradient(45deg, #ffd700, #ff8c00); color: #000; font-weight: bold; }
-        .leaderboard-item { border-right: 4px solid #3b82f6; background: rgba(30, 41, 59, 0.5); }
+        body { font-family: 'Changa', sans-serif; background: #05070a; color: #f8fafc; }
+        .neon-border { border: 1px solid rgba(59, 130, 246, 0.5); box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+        .neon-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.8); }
+        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+        .points-pill { background: linear-gradient(90deg, #1e40af, #3b82f6); }
+        .loader-bar { transition: width 0.3s ease; }
     </style>
-    <!-- كود حماية الإعلانات العلوي -->
-    <script src="https://pl28773861.effectivegatecpm.com/01/a1/0b/01a10b237dd3b831dcbac354c68e1c93.js"></script>
+    <!-- كود حماية الإعلانات -->
+    <script src="https://pl28773861.effectivegatecpm.com"></script>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-    <!-- مساحة الإعلان العلوي -->
-    <div style="width: 100%; text-align: center; margin-bottom: 10px;">
-        <script async="async" data-cfasync="false" src="https://pl28772591.effectivegatecpm.com/41c60b05cbd1c79de0dbdf46be857cd8/invoke.js"></script>
+    <!-- شريط الإعلان العلوي -->
+    <div class="bg-black/50 py-2 text-center border-b border-blue-900/30">
+        <script async="async" data-cfasync="false" src="https://pl28772591.effectivegatecpm.com"></script>
         <div id="container-41c60b05cbd1c79de0dbdf46be857cd8"></div>
     </div>
 
-    <!-- الهيدر مع رصيد النقاط -->
-    <header class="p-4 bg-slate-900 border-b border-blue-900/50 flex justify-between items-center sticky top-0 z-40 shadow-xl">
-        <div class="text-xl font-bold text-blue-400">STAR GAMES 🎮</div>
-        <div class="flex items-center gap-4">
-            <div class="points-badge px-4 py-1 rounded-full text-sm">
-                نقاطك: <span id="userPoints">0</span> 🪙
+    <!-- الهيدر الاحترافي -->
+    <header class="p-4 bg-slate-950/80 backdrop-blur-md border-b border-blue-500/20 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black neon-text italic">STAR<span class="text-blue-500">GAMES</span></div>
+            <div class="flex items-center gap-3">
+                <div class="points-pill px-4 py-1 rounded-full border border-blue-400/30 flex items-center gap-2">
+                    <span class="text-xs text-blue-100">رصيدك:</span>
+                    <span id="userPoints" class="font-bold text-yellow-400">0</span>
+                    <span class="text-xs text-blue-100">🪙</span>
+                </div>
             </div>
-            <button onclick="toggleLeaderboard()" class="text-xs bg-slate-800 p-2 rounded border border-slate-700">المتصدرون 🏆</button>
         </div>
     </header>
 
-    <!-- قائمة المتصدرين -->
-    <div id="leaderboard" class="hidden container mx-auto p-4">
-        <div class="bg-slate-800 p-6 rounded-2xl border border-blue-500/30">
-            <h2 class="text-center font-bold mb-4 text-yellow-400">🏆 قائمة أساطير اللعب</h2>
-            <div class="space-y-2" id="leaderboardList">
-                <div class="leaderboard-item p-3 flex justify-between rounded"><span>1. محمد القحطاني</span> <b>15,400</b></div>
-                <div class="leaderboard-item p-3 flex justify-between rounded opacity-80"><span>2. سارة أحمد</span> <b>12,100</b></div>
-                <div class="leaderboard-item p-3 flex justify-between rounded opacity-60"><span>3. خالد X</span> <b>9,850</b></div>
+    <!-- بانر ترحيبي -->
+    <section class="container mx-auto mt-6 px-4">
+        <div class="bg-gradient-to-l from-blue-900/40 to-slate-900 p-8 rounded-3xl border border-blue-500/20 relative overflow-hidden">
+            <div class="relative z-10">
+                <h1 class="text-3xl font-bold mb-2">مرحباً بك في ركن الأساطير 🚀</h1>
+                <p class="text-blue-300 text-sm">العب، اجمع النقاط، وتصدر القائمة العالمية!</p>
             </div>
+            <div class="absolute -left-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
         </div>
-    </div>
+    </section>
 
-    <!-- شبكة الألعاب -->
-    <main class="container mx-auto p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="gameGrid">
-        <!-- الألعاب تضاف هنا تلقائياً -->
+    <!-- قسم الألعاب -->
+    <main class="container mx-auto p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold border-r-4 border-blue-500 pr-3">ألعاب مقترحة لك</h2>
+            <span class="text-xs text-slate-500">تحديث يومي 🔄</span>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6" id="gameGrid">
+            <!-- الألعاب تضاف هنا -->
+        </div>
     </main>
 
-    <!-- نافذة اللعب -->
-    <div id="gameRoom" class="fixed inset-0 bg-black hidden z-50 flex flex-col">
-        <div class="p-3 bg-slate-900 flex justify-between items-center px-6">
-            <button onclick="finishGame()" class="bg-red-600 px-6 py-1 rounded-full text-sm font-bold">إنهاء وتجميع النقاط 💰</button>
-            <div class="text-yellow-400 text-sm">جاري تجميع النقاط... <span id="sessionPoints">0</span></div>
+    <!-- شاشة اللعب والتحميل -->
+    <div id="gameRoom" class="fixed inset-0 bg-slate-950 hidden z-[100] flex flex-col">
+        <div class="p-4 bg-slate-900 border-b border-blue-900/50 flex justify-between items-center">
+            <button onclick="exitGame()" class="bg-red-500/20 hover:bg-red-500 text-red-500 hover:text-white px-5 py-2 rounded-xl text-sm transition-all">إنهاء الجلسة 🚪</button>
+            <div id="loadingStatus" class="text-blue-400 text-sm animate-pulse">جاري تحضير اللعبة...</div>
+            <div class="text-yellow-400 font-bold bg-yellow-400/10 px-4 py-1 rounded-lg border border-yellow-400/20">
+                + <span id="sessionPoints">0</span>
+            </div>
         </div>
-        <iframe id="gFrame" class="w-full h-full border-none"></iframe>
+        
+        <div id="loader" class="flex-grow flex flex-col items-center justify-center bg-slate-950 px-6">
+            <div class="w-full max-w-md h-2 bg-slate-800 rounded-full overflow-hidden mb-4">
+                <div id="pBar" class="loader-bar h-full bg-blue-500 w-0"></div>
+            </div>
+            <p class="text-slate-400 text-xs text-center">شاهد الإعلان بالأسفل لزيادة سرعة التحميل ومضاعفة النقاط!</p>
+            <!-- إعلان إضافي في شاشة التحميل لزيادة الربح -->
+            <div class="mt-8 bg-slate-900 p-4 rounded-xl border border-slate-800">
+                <p class="text-[10px] text-slate-500 mb-2">إعلان ممول</p>
+                <div id="loader-ad"></div>
+            </div>
+        </div>
+
+        <iframe id="gFrame" class="hidden w-full h-full border-none"></iframe>
     </div>
 
     <script>
@@ -64,56 +92,82 @@
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-        // تم تحديث الروابط هنا لتظهر الصور
-                
-        const myGames = [
-            { title: "هروب المعبد", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { title: "سحق الزومبي", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
-            { title: "تحدي السكين", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" }
+        const games = [
+            { id: 1, title: "هروب المعبد 2", img: "https://www.gamepix.com", url: "https://www.gamepix.com" },
+            { id: 2, title: "سحق الزومبي", img: "https://www.gamepix.com", url: "https://www.gamepix.com" },
+            { id: 3, title: "تحدي السكين", img: "https://www.gamepix.com", url: "https://www.gamepix.com" },
+            { id: 4, title: "سباق الشوارع", img: "https://www.gamepix.com", url: "https://www.gamepix.com" },
+            { id: 5, title: "سحق الحلوى", img: "https://www.gamepix.com", url: "https://www.gamepix.com" }
         ];
 
-
-        function render() {
+        function renderGames() {
             const grid = document.getElementById('gameGrid');
-            grid.innerHTML = '';
-            myGames.forEach(g => {
-                grid.innerHTML += `
-                    <div onclick="play('${g.url}')" class="bg-slate-800 rounded-2xl overflow-hidden cursor-pointer hover:scale-105 transition border border-slate-700">
-                        <img src="${g.img}" class="w-full h-24 object-cover">
-                        <div class="p-3 text-center text-xs font-bold">${g.title}</div>
-                        <div class="bg-blue-600/20 text-blue-400 text-[10px] text-center pb-1">+10 نقاط/دقيقة</div>
+            grid.innerHTML = games.map(g => `
+                <div onclick="launchGame('${g.url}')" class="game-card bg-slate-900 rounded-3xl overflow-hidden border border-slate-800 cursor-pointer transition-all duration-300">
+                    <div class="h-32 bg-slate-800 relative">
+                        <img src="${g.img}" class="w-full h-full object-cover opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
                     </div>
-                `;
-            });
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-1">${g.title}</h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded">نقاط مضاعفة ⚡</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function play(url) {
-            document.getElementById('gFrame').src = url;
-            document.getElementById('gameRoom').classList.remove('hidden');
+        function launchGame(url) {
+            const room = document.getElementById('gameRoom');
+            const pBar = document.getElementById('pBar');
+            const frame = document.getElementById('gFrame');
+            const loader = document.getElementById('loader');
+            
+            room.classList.remove('hidden');
+            let progress = 0;
+            
+            // محاكاة تحميل لعرض الإعلان
+            const interval = setInterval(() => {
+                progress += 5;
+                pBar.style.width = progress + '%';
+                if(progress >= 100) {
+                    clearInterval(interval);
+                    loader.classList.add('hidden');
+                    frame.classList.remove('hidden');
+                    frame.src = url;
+                    startScoring();
+                }
+            }, 150);
+        }
+
+        function startScoring() {
             let sPoints = 0;
             sessionTimer = setInterval(() => {
-                sPoints += 1;
+                sPoints += 2;
                 document.getElementById('sessionPoints').innerText = sPoints;
-            }, 3000);
+            }, 4000);
         }
 
-        function finishGame() {
+        function exitGame() {
             clearInterval(sessionTimer);
             let sPoints = parseInt(document.getElementById('sessionPoints').innerText);
             totalPoints += sPoints;
             localStorage.setItem('totalPoints', totalPoints);
             document.getElementById('userPoints').innerText = totalPoints;
-            alert(`مبروك! جمعت ${sPoints} نقطة جديدة 🪙`);
-            document.getElementById('gameRoom').classList.add('hidden');
+            
+            alert(`🔥 أحسنت! أضفت ${sPoints} نقطة إلى رصيدك العالمي.`);
+            
+            const room = document.getElementById('gameRoom');
+            room.classList.add('hidden');
             document.getElementById('gFrame').src = "";
+            document.getElementById('gFrame').classList.add('hidden');
+            document.getElementById('loader').classList.remove('hidden');
+            document.getElementById('pBar').style.width = '0%';
             document.getElementById('sessionPoints').innerText = "0";
         }
 
-        function toggleLeaderboard() {
-            document.getElementById('leaderboard').classList.toggle('hidden');
-        }
-
-        render();
+        renderGames();
     </script>
 </body>
 </html>
