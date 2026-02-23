@@ -6,99 +6,74 @@
     <title>ستار جيمز | STAR GAMES</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
-    
-    <!-- مكتبات Firebase الأساسية -->
-    <script src="https://www.gstatic.com"></script>
-    <script src="https://www.gstatic.com"></script>
-    <script src="https://www.gstatic.com"></script>
-
     <style>
-        body { font-family: 'Changa', sans-serif; background: #05070a; color: #f8fafc; overflow-x: hidden; }
+        body { font-family: 'Changa', sans-serif; background: #05070a; color: #f8fafc; }
         .neon-text { text-shadow: 0 0 10px rgba(59, 130, 246, 0.8); }
-        .game-card { transition: all 0.3s ease; border: 1px solid #1e293b; }
-        .game-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+        .game-card { background: #0f172a; border-radius: 20px; overflow: hidden; border: 1px solid #1e293b; transition: 0.3s; cursor: pointer; }
+        .game-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
     </style>
-    
-    <!-- كود حماية الإعلانات الخاص بك -->
-    <script src="https://pl28773861.effectivegatecpm.com"></script>
 </head>
 <body>
 
-    <!-- مساحة الإعلان العلوي -->
-    <div class="text-center py-2 bg-black/40 border-b border-blue-900/20">
-        <script async="async" data-cfasync="false" src="https://pl28772591.effectivegatecpm.com"></script>
-        <div id="container-41c60b05cbd1c79de0dbdf46be857cd8"></div>
-    </div>
-
     <!-- الهيدر -->
-    <header class="p-4 bg-slate-950/90 backdrop-blur-md border-b border-blue-500/20 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-2xl font-black neon-text italic">STAR<span class="text-blue-500">GAMES</span></div>
-            <div class="flex items-center gap-3">
-                <button onclick="loginWithGoogle()" class="text-xs bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded-xl transition">دخول 👤</button>
-                <div class="bg-blue-900/30 px-4 py-1.5 rounded-full border border-blue-400/20 flex items-center gap-2">
-                    <span id="userPoints" class="font-bold text-yellow-400">0</span> <span class="text-xs">🪙</span>
-                </div>
+    <header class="p-4 bg-slate-950 border-b border-blue-900/50 flex justify-between items-center sticky top-0 z-50">
+        <div class="text-2xl font-black neon-text italic text-blue-400">STARGAMES</div>
+        <div class="flex items-center gap-3">
+            <button class="bg-blue-600 px-4 py-1 rounded-lg text-xs font-bold">دخول 👤</button>
+            <div class="bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full text-yellow-400 font-bold">
+                <span id="userPoints">0</span> 🪙
             </div>
         </div>
     </header>
 
     <!-- شبكة الألعاب -->
-    <main class="container mx-auto p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6" id="gameGrid">
-        <!-- الألعاب تظهر هنا تلقائياً -->
+    <main class="container mx-auto p-6 grid grid-cols-2 md:grid-cols-4 gap-6" id="gameGrid">
+        <!-- الألعاب ستظهر هنا فوراً -->
     </main>
 
     <!-- نافذة اللعب -->
-    <div id="gameRoom" class="fixed inset-0 bg-slate-950 hidden z-[100] flex flex-col">
-        <div class="p-4 bg-slate-900 border-b border-blue-900/50 flex justify-between items-center">
-            <button onclick="exitGame()" class="bg-red-500/20 hover:bg-red-500 text-red-500 hover:text-white px-6 py-2 rounded-xl text-sm transition-all font-bold">إنهاء وتجميع النقاط 💰</button>
-            <div class="text-yellow-400 font-bold bg-yellow-400/10 px-4 py-1 rounded-lg border border-yellow-400/20">
-                + <span id="sessionPoints">0</span>
-            </div>
+    <div id="gameRoom" class="fixed inset-0 bg-black hidden z-[100] flex flex-col">
+        <div class="p-4 bg-slate-900 flex justify-between items-center">
+            <button onclick="exitGame()" class="bg-red-600 px-6 py-1 rounded-full font-bold">خروج 🚪</button>
+            <div class="text-yellow-400 font-bold">نقاط الجلسة: <span id="sessionPoints">0</span></div>
         </div>
         <iframe id="gFrame" class="w-full h-full border-none bg-white"></iframe>
     </div>
 
     <script>
-        // إعدادات Firebase (سيتم ربطها لاحقاً ببياناتك الخاصة)
-        const firebaseConfig = { apiKey: "AIzaSy...", authDomain: "games-c6.firebaseapp.com", projectId: "games-c6", appId: "1:777:web:abc" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-
         let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-        // مصفوفة الألعاب - يمكنك إضافة أي لعبة هنا بسهولة
-        const games = [
+        // مصفوفة الألعاب مع روابط صور مباشرة ومضمونة
+        const gamesList = [
             { title: "هروب المعبد 2", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { title: "سحق الزومبي", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { title: "تحدي السكين", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { title: "سباق الشوارع", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" }
         ];
 
-        function renderGames() {
+        function showGames() {
             const grid = document.getElementById('gameGrid');
-            grid.innerHTML = games.map(g => `
-                <div onclick="launchGame('${g.url}')" class="game-card bg-slate-900 rounded-3xl overflow-hidden cursor-pointer">
-                    <img src="${g.img}" class="w-full h-32 object-cover opacity-80 hover:opacity-100 transition">
-                    <div class="p-4 text-center">
-                        <h3 class="font-bold text-xs truncate">${g.title}</h3>
-                        <div class="text-[10px] text-blue-400 mt-1">العب واجمع النقاط ⚡</div>
+            grid.innerHTML = ""; // مسح الشبكة أولاً
+            gamesList.forEach(game => {
+                grid.innerHTML += `
+                    <div onclick="openGame('${game.url}')" class="game-card">
+                        <img src="${game.img}" class="w-full h-32 object-cover">
+                        <div class="p-3 text-center text-xs font-bold">${game.title}</div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            });
         }
 
-        function launchGame(url) {
+        function openGame(url) {
             document.getElementById('gFrame').src = url;
             document.getElementById('gameRoom').classList.remove('hidden');
             let sPoints = 0;
             sessionTimer = setInterval(() => {
-                sPoints += 2;
+                sPoints += 1;
                 document.getElementById('sessionPoints').innerText = sPoints;
-            }, 5000);
+            }, 3000);
         }
 
         function exitGame() {
@@ -108,19 +83,14 @@
             localStorage.setItem('totalPoints', totalPoints);
             document.getElementById('userPoints').innerText = totalPoints;
             
-            // تنبيه للمستخدم
-            alert(`مبروك! ربحت ${sPoints} نقطة جديدة 🎉`);
-
             document.getElementById('gameRoom').classList.add('hidden');
             document.getElementById('gFrame').src = "";
             document.getElementById('sessionPoints').innerText = "0";
+            alert("تم إضافة النقاط لرصيدك! 💰");
         }
 
-        function loginWithGoogle() {
-            alert("نظام Google Login قيد التجهيز في لوحة تحكم Firebase!");
-        }
-
-        renderGames();
+        // تشغيل الألعاب فوراً عند فتح الموقع
+        showGames();
     </script>
 </body>
 </html>
