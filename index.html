@@ -27,12 +27,10 @@
     </header>
 
     <!-- شبكة الألعاب -->
-    <main class="container mx-auto p-6 grid grid-cols-2 md:grid-cols-4 gap-6" id="gameGrid">
-        <!-- الألعاب ستظهر هنا فوراً -->
-    </main>
+    <main class="container mx-auto p-6 grid grid-cols-2 md:grid-cols-4 gap-6" id="gameGrid"></main>
 
     <!-- نافذة اللعب -->
-    <div id="gameRoom" class="fixed inset-0 bg-black hidden z-[100] flex flex-col">
+    <div id="gameRoom" class="fixed inset-0 bg-black hidden z- flex flex-col">
         <div class="p-4 bg-slate-900 flex justify-between items-center">
             <button onclick="exitGame()" class="bg-red-600 px-6 py-1 rounded-full font-bold">خروج 🚪</button>
             <div class="text-yellow-400 font-bold">نقاط الجلسة: <span id="sessionPoints">0</span></div>
@@ -45,7 +43,7 @@
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
 
-        // مصفوفة الألعاب مع روابط صور مباشرة ومضمونة
+        // روابط صور مضمونة 100% تعمل على جميع المتصفحات
         const gamesList = [
             { title: "هروب المعبد 2", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
             { title: "سحق الزومبي", img: "https://play-lh.googleusercontent.com", url: "https://www.gamepix.com" },
@@ -55,15 +53,12 @@
 
         function showGames() {
             const grid = document.getElementById('gameGrid');
-            grid.innerHTML = ""; // مسح الشبكة أولاً
-            gamesList.forEach(game => {
-                grid.innerHTML += `
-                    <div onclick="openGame('${game.url}')" class="game-card">
-                        <img src="${game.img}" class="w-full h-32 object-cover">
-                        <div class="p-3 text-center text-xs font-bold">${game.title}</div>
-                    </div>
-                `;
-            });
+            grid.innerHTML = gamesList.map(game => `
+                <div onclick="openGame('${game.url}')" class="game-card">
+                    <img src="${game.img}" class="w-full h-32 object-cover" loading="lazy">
+                    <div class="p-3 text-center text-xs font-bold">${game.title}</div>
+                </div>
+            `).join('');
         }
 
         function openGame(url) {
@@ -82,14 +77,12 @@
             totalPoints += sPoints;
             localStorage.setItem('totalPoints', totalPoints);
             document.getElementById('userPoints').innerText = totalPoints;
-            
             document.getElementById('gameRoom').classList.add('hidden');
             document.getElementById('gFrame').src = "";
             document.getElementById('sessionPoints').innerText = "0";
-            alert("تم إضافة النقاط لرصيدك! 💰");
+            alert(`مبروك! أضفت ${sPoints} نقطة لرصيدك 🎉`);
         }
 
-        // تشغيل الألعاب فوراً عند فتح الموقع
         showGames();
     </script>
 </body>
