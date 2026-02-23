@@ -16,6 +16,12 @@
     </style>
     <!-- كود حماية الإعلانات -->
     <script src="https://pl28773861.effectivegatecpm.com"></script>
+
+    <!-- مكتبات Firebase الأساسية -->
+<script src="https://www.gstatic.com"></script>
+<script src="https://www.gstatic.com"></script>
+<script src="https://www.gstatic.com"></script>
+
 </head>
 <body class="overflow-x-hidden">
 
@@ -88,6 +94,16 @@
     </div>
 
     <script>
+const firebaseConfig = {
+  apiKey: "AIzaSy...", 
+  authDomain: "games-c6.firebaseapp.com",
+  projectId: "games-c6",
+  appId: "1:777:web:abc"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
         let totalPoints = parseInt(localStorage.getItem('totalPoints')) || 0;
         let sessionTimer;
         document.getElementById('userPoints').innerText = totalPoints;
